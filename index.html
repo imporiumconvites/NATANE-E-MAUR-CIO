@@ -807,7 +807,7 @@
     }
     .invite-couple-name-img {
       display: block;
-      height: clamp(3.5rem, 10vw, 6rem);
+      height: clamp(2.6rem, 7.5vw, 4.5rem);
       width: auto;
       margin: 0 auto;
     }
@@ -3388,44 +3388,18 @@
 
     /* Espaço extra acima da seção de confirmação */
     #confirmacao { padding-top: var(--space-8) !important; }
-    /* Lista de presentes: sem fundo estampado nem quadro branco; o texto fica dentro da moldura verde */
+    /* Lista de presentes: faixa bordô, igual à confirmação de presença */
     #confirmacao {
-      background: none;
-      padding-block: var(--space-6) !important;
+      background-color: #600629;
+      color: #fff;
     }
-    .gift-title-icon { display: block; width: clamp(70px, 10vw, 100px); height: auto; margin: 0 auto var(--space-2); }
-    #confirmacao .container {
-      max-width: 620px;
-      width: calc(100% - 24px);
-      margin-inline: auto;
-      aspect-ratio: 1200 / 1492;
-      background: url('assets/geral/molduraverde-nova-vertical.png') center / 100% 100% no-repeat;
-      padding: 17% 16%;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
-    /* Celular: conteúdo mais compacto para o botão ficar dentro da moldura */
-    @media (max-width: 767px) {
-      #confirmacao .container { padding: 15% 15% 13%; }
-      #confirmacao .gift-title-icon { width: 58px; margin-bottom: 4px; }
-      #confirmacao .section-header { margin-bottom: 0; }
-      #confirmacao .section-header .h2 { font-size: 30px; line-height: 1.15; margin-bottom: 0; }
-      #confirmacao .divider { margin: 10px auto; }
-      #confirmacao .gift-windows { margin-top: 4px; }
-      #confirmacao .gift-windows--single .gift-window-text { font-size: 15px; line-height: 1.55; margin-bottom: 14px; }
-      #confirmacao .gift-window-btn { padding: 10px 16px; font-size: 13px; max-width: 200px; }
-    }
-    /* Desktop e tablet: moldura na horizontal */
-    @media (min-width: 768px) {
-      #confirmacao .container {
-        max-width: 920px;
-        aspect-ratio: 1492 / 1200;
-        background-image: url('assets/geral/molduraverde-nova-horizontal.png');
-        padding: clamp(80px, 9.5vw, 129px) clamp(80px, 11vw, 156px);
-      }
-    }
-
+    .gift-title-icon { display: block; width: clamp(70px, 10vw, 100px); height: auto; margin: 0 auto var(--space-2); filter: brightness(0) invert(1); }
+    #confirmacao .h2,
+    #confirmacao .gift-window-text { color: #fff; }
+    #confirmacao .divider { background-color: rgba(255,255,255,0.5); }
+    #confirmacao .gift-windows--single .gift-window-text { margin-bottom: var(--space-4); }
+    #confirmacao .gift-window-btn { border-color: #fff; color: #fff; max-width: 240px; }
+    #confirmacao .gift-window-btn:hover { background: #fff; color: #600629; }
     /* Espaço extra acima do Dress Code (separa dos botões de confirmação) */
     #dresscode { padding-top: var(--space-6) !important; }
 
@@ -4042,6 +4016,38 @@
 
       .container { max-width: 1200px; }
     }
+
+    /* ============================================================
+       RITMO VERTICAL — espaçamento padronizado entre as seções
+       (fica por último para valer sobre os ajustes antigos)
+       ============================================================ */
+    :root { --gap-secao: 48px; --gap-faixa: 56px; }
+    @media (max-width: 767px) { :root { --gap-secao: 32px; --gap-faixa: 40px; } }
+
+    /* Boas-vindas: assinatura + sketch */
+    main #top { padding-block: 32px 0 !important; }
+    main #top .sketch-wrap { padding-block: 0 var(--gap-secao); }
+
+    /* Faixas coloridas (contagem e RSVP): mesmo respiro interno */
+    main #contagem { padding-block: var(--gap-faixa) !important; }
+    main .rsvp-band { margin-top: 0; padding-block: var(--gap-faixa); }
+
+    /* Fotos: sem margens soltas, respiro igual nas duas pontas */
+    main #fotos { padding-block: var(--gap-secao) !important; }
+    main #fotos .gallery-slider-outer { margin-block: 0 !important; }
+    main #rsvp-section { padding: 0 !important; }
+
+    /* Cavalo: entre a faixa do RSVP e a cerimônia */
+    main .cavalo-stage { margin-block: var(--gap-secao) 0; }
+
+    /* Seções de conteúdo: mesmo espaço em cima e embaixo */
+    main #cerimonia,
+    main #dresscode,
+    main #hospedagem { padding-block: var(--gap-secao) !important; }
+    main #confirmacao { padding-block: var(--gap-faixa) !important; }
+
+    /* Foto de paralaxe: encosta nas seções vizinhas sem margem extra */
+    main .parallax-strip { margin-block: 0; }
   </style>
 </head>
 <body>
