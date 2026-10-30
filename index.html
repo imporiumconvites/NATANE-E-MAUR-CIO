@@ -389,12 +389,6 @@
       box-shadow: var(--shadow-hover);
     }
 
-    /* Com o menu mobile aberto, o header precisa ficar fixo no topo
-       (nao sticky), senao o botao de fechar fica preso na posicao
-       de rolagem em que o menu foi aberto, flutuando sobre o painel. */
-    body.nav-open .site-header {
-      position: fixed;
-    }
 
     .nav {
       display: flex;
@@ -461,6 +455,16 @@
     .nav-toggle[aria-expanded="true"] .nav-burger span:nth-child(1) { top: 8px; transform: rotate(45deg); }
     .nav-toggle[aria-expanded="true"] .nav-burger span:nth-child(2) { opacity: 0; }
     .nav-toggle[aria-expanded="true"] .nav-burger span:nth-child(3) { top: 8px; transform: rotate(-45deg); }
+
+    /* Até 991px (celular e tablet): hambúrguer + painel. A partir de 992px (desktop): menu linear na faixa */
+    @media (max-width: 991px) {
+      .nav .nav-links { display: none; }
+    }
+    @media (min-width: 992px) {
+      .nav-toggle { display: none; }
+      .nav-panel,
+      .nav-overlay { display: none; }
+    }
 
     .nav-links {
       list-style: none;
@@ -4009,14 +4013,7 @@
   <a class="skip-link" href="#main">Pular para o conteúdo</a>
 
   <!-- ============================================================
-       FOTO DE CAPA
-       ============================================================ -->
-  <section class="hero-cover" aria-label="Foto de capa">
-    <img src="assets/geral/foto-capa.jpg" alt="Natane e Maurício" loading="eager" />
-  </section>
-
-  <!-- ============================================================
-       HEADER
+       HEADER (faixa do menu acima da foto de capa)
        ============================================================ -->
   <header class="site-header" id="site-header">
     <div class="container">
@@ -4024,9 +4021,25 @@
         <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-nav" aria-label="Abrir menu de navegação">
           <span class="nav-burger" aria-hidden="true"><span></span><span></span><span></span></span>
         </button>
+
+        <ul class="nav-links" id="primary-nav-desktop" aria-label="Navegação (desktop)">
+          <li><a href="#top">Home</a></li>
+          <li><a href="#rsvp">RSVP</a></li>
+          <li><a href="#cerimonia">Cerimônia e Recepção</a></li>
+          <li><a href="#confirmacao">Lista de Presentes</a></li>
+          <li><a href="#dresscode">Dress Code</a></li>
+          <li><a href="#hospedagem">Hospedagem</a></li>
+        </ul>
       </nav>
     </div>
   </header>
+
+  <!-- ============================================================
+       FOTO DE CAPA
+       ============================================================ -->
+  <section class="hero-cover" aria-label="Foto de capa">
+    <img src="assets/geral/foto-capa.jpg" alt="Natane e Maurício" loading="eager" />
+  </section>
 
   <!-- Painel mobile fora do header (evita containing block do backdrop-filter) -->
   <div class="nav-overlay" id="navOverlay" aria-hidden="true"></div>
