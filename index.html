@@ -3752,8 +3752,27 @@
       background-position: center;
       background-attachment: fixed;
     }
+    .parallax-bg { display: none; }
+    /* Celular: background-attachment fixed não funciona (iOS/Android), então a foto vai
+       numa camada própria que o JavaScript desloca mais devagar que a rolagem */
     @media (max-width: 767px) {
-      .parallax-strip { background-attachment: scroll; height: 46vh; min-height: 280px; }
+      .parallax-strip {
+        position: relative;
+        overflow: hidden;
+        height: 46vh;
+        min-height: 280px;
+        background-image: none;
+      }
+      .parallax-bg {
+        display: block;
+        position: absolute;
+        left: 0;
+        top: -120px;
+        width: 100%;
+        height: calc(100% + 240px);
+        background: url('assets/geral/foto-paralax.JPG') center / cover no-repeat;
+        will-change: transform;
+      }
     }
 
     /* Lista de Presentes - janelas */
@@ -4325,7 +4344,7 @@
     <!-- ============================================================
          PARALAX
          ============================================================ -->
-    <div class="parallax-strip" role="img" aria-label="Maurício e Natane"></div>
+    <div class="parallax-strip" role="img" aria-label="Maurício e Natane"><div class="parallax-bg"></div></div>
 
     <!-- ============================================================
          GALERIA
@@ -5793,6 +5812,39 @@
       current = (current + 1) % slides.length;
       slides[current].classList.add('is-active');
     }, 4000);
+  })();
+
+  /* ============================================================
+     PARALAXE NO CELULAR — foto desloca mais devagar que a rolagem
+     ============================================================ */
+  (function () {
+    var strip = document.querySelector('.parallax-strip');
+    var bg    = document.querySelector('.parallax-bg');
+    if (!strip || !bg) return;
+
+    var mobile  = window.matchMedia('(max-width: 767px)');
+    var reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+    var SPEED = 0.18;   // fração da rolagem que a foto "acompanha"
+    var LIMIT = 120;    // folga em px da camada (top: -120px, +240px de altura)
+    var ticking = false;
+
+    function update() {
+      ticking = false;
+      if (!mobile.matches || reduced.matches) { bg.style.transform = ''; return; }
+      var r = strip.getBoundingClientRect();
+      var vh = window.innerHeight;
+      if (r.bottom < 0 || r.top > vh) return;
+      var offset = r.top + r.height / 2 - vh / 2;
+      var shift = Math.max(-LIMIT, Math.min(LIMIT, -offset * SPEED));
+      bg.style.transform = 'translate3d(0,' + shift + 'px,0)';
+    }
+    function request() {
+      if (!ticking) { ticking = true; requestAnimationFrame(update); }
+    }
+
+    window.addEventListener('scroll', request, { passive: true });
+    window.addEventListener('resize', request);
+    update();
   })();
 
   /* ============================================================
