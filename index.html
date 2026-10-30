@@ -299,9 +299,9 @@
     .hero-cover {
       position: relative;
       width: 100%;
-      height: 62vh;
+      height: 50vh;
       min-height: 340px;
-      max-height: 640px;
+      max-height: 560px;
       overflow: hidden;
       background: #3a2a1e;
     }
@@ -311,7 +311,7 @@
       content: '';
       position: absolute;
       inset: -40px;
-      background: url('assets/geral/foto-capa.jpg') center / cover no-repeat;
+      background: url('assets/geral/foto-capa.png') center / cover no-repeat;
       filter: blur(40px) brightness(0.9);
     }
 
@@ -322,7 +322,17 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      object-position: center 92%;
+      object-position: 48% 32%;
+    }
+
+
+    /* Desktop: capa alta, com a foto horizontal preenchendo a largura */
+    @media (min-width: 992px) {
+      .hero-cover {
+        height: calc(100vh - 100px);
+        min-height: 520px;
+        max-height: 820px;
+      }
     }
 
     .hero-cover::after {
@@ -344,12 +354,16 @@
       padding-inline: var(--space-3);
     }
 
-    .hero-cover-brasao {
-      width: clamp(64px, 10vw, 96px);
+    .hero-cover > img.hero-cover-brasao {
+      position: absolute;
+      inset: 8% auto auto 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+      width: clamp(88px, 22vw, 130px);
       height: auto;
-      margin: 0 auto var(--space-2);
-      filter: brightness(0) invert(1) drop-shadow(0 2px 12px rgba(0,0,0,0.45));
-      opacity: 0.95;
+      filter: none;
+      opacity: 1;
+      pointer-events: none;
     }
 
     .hero-cover-date {
@@ -3374,21 +3388,42 @@
 
     /* Espaço extra acima da seção de confirmação */
     #confirmacao { padding-top: var(--space-8) !important; }
-    /* Lista de presentes: fundo de listras com quadro branco atrás do texto */
+    /* Lista de presentes: sem fundo estampado nem quadro branco; o texto fica dentro da moldura verde */
     #confirmacao {
-      background-image: url('assets/geral/background@2x-8.png');
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      padding-block: var(--space-7) !important;
+      background: none;
+      padding-block: var(--space-6) !important;
     }
-    .gift-title-icon { display: block; width: clamp(80px, 12vw, 110px); height: auto; margin: 0 auto var(--space-2); }
+    .gift-title-icon { display: block; width: clamp(70px, 10vw, 100px); height: auto; margin: 0 auto var(--space-2); }
     #confirmacao .container {
-      background: #fff;
-      max-width: 760px;
-      border-radius: 16px;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.10);
-      padding-block: var(--space-6);
+      max-width: 620px;
+      width: calc(100% - 24px);
+      margin-inline: auto;
+      aspect-ratio: 1200 / 1492;
+      background: url('assets/geral/molduraverde-nova-vertical.png') center / 100% 100% no-repeat;
+      padding: 17% 16%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    /* Celular: conteúdo mais compacto para o botão ficar dentro da moldura */
+    @media (max-width: 767px) {
+      #confirmacao .container { padding: 15% 15% 13%; }
+      #confirmacao .gift-title-icon { width: 58px; margin-bottom: 4px; }
+      #confirmacao .section-header { margin-bottom: 0; }
+      #confirmacao .section-header .h2 { font-size: 30px; line-height: 1.15; margin-bottom: 0; }
+      #confirmacao .divider { margin: 10px auto; }
+      #confirmacao .gift-windows { margin-top: 4px; }
+      #confirmacao .gift-windows--single .gift-window-text { font-size: 15px; line-height: 1.55; margin-bottom: 14px; }
+      #confirmacao .gift-window-btn { padding: 10px 16px; font-size: 13px; max-width: 200px; }
+    }
+    /* Desktop e tablet: moldura na horizontal */
+    @media (min-width: 768px) {
+      #confirmacao .container {
+        max-width: 920px;
+        aspect-ratio: 1492 / 1200;
+        background-image: url('assets/geral/molduraverde-nova-horizontal.png');
+        padding: clamp(80px, 9.5vw, 129px) clamp(80px, 11vw, 156px);
+      }
     }
 
     /* Espaço extra acima do Dress Code (separa dos botões de confirmação) */
@@ -4038,7 +4073,8 @@
        FOTO DE CAPA
        ============================================================ -->
   <section class="hero-cover" aria-label="Foto de capa">
-    <img src="assets/geral/foto-capa.jpg" alt="Natane e Maurício" loading="eager" />
+    <img src="assets/geral/foto-capa.png" alt="Natane e Maurício" loading="eager" />
+    <img src="assets/geral/BRAS%C3%83O.png" alt="Brasão Natane e Maurício" loading="eager" class="hero-cover-brasao" />
   </section>
 
   <!-- Painel mobile fora do header (evita containing block do backdrop-filter) -->
@@ -4252,7 +4288,7 @@
         </div>
         <div class="gift-windows gift-windows--single reveal">
           <div class="gift-window">
-            <p class="gift-window-text">Sua presença já é o nosso maior presente! Mas, se desejarem nos presentear, preparamos com carinho uma lista especial para ajudar a construir o início da nossa nova vida juntos.</p>
+            <p class="gift-window-text">Sua presença já é o nosso maior presente! Mas, se desejarem nos presentear, preparamos com carinho uma lista especial.</p>
             <a class="gift-window-btn">Ver Lista <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><path d="M15 3h6v6"/><path d="M10 14 21 3"/></svg></a>
           </div>
         </div>
